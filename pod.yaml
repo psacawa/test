@@ -1,0 +1,4 @@
+# yaml-language-server: $schema=file://home/psacawa/.schema/kube/pod.json
+kind: Pod
+apiVersion: v1
+spec:

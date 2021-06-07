@@ -1,0 +1,68 @@
+---
+# yaml-language-server: $schema=file://home/psacawa/.kube/schema/master-standalone-strict/configmap.json
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: 
+    test-backend-pod
+  labels:
+    app: backend
+data:
+  BACKEND_HOST: test-backend-service
+  BACKEND_PORT: "8080"
+---
+# yaml-language-server: $schema=file://home/psacawa/.kube/schema/master-standalone-strict/pod.json
+apiVersion: v1
+kind: Pod
+metadata:
+  name: 
+    test-backend-pod
+  labels:
+    app: backend
+spec:
+  containers:
+    - name: test-backend-container
+      image: test-backend-image
+      imagePullPolicy: Never
+---
+# yaml-language-server: $schema=file://home/psacawa/.kube/schema/master-standalone-strict/service.json
+apiVersion: v1
+kind: Service
+metadata:
+  name: 
+    test-backend-service
+spec:
+  selector:
+    app: backend
+  ports:
+    - name: http
+      port: 8080
+---
+# yaml-language-server: $schema=file://home/psacawa/.kube/schema/master-standalone-strict/pod.json
+apiVersion: v1
+kind: Pod
+metadata:
+  name: 
+    test-frontend-pod
+  labels:
+    app: frontend
+  
+spec:
+  containers:
+    - name: test-frontend-container
+      image: test-frontend-image
+      imagePullPolicy: Never
+---
+
+# yaml-language-server: $schema=file://home/psacawa/.kube/schema/master-standalone-strict/service.json
+apiVersion: v1
+kind: Service
+metadata:
+  name: 
+    test-frontend-service
+spec:
+  selector:
+    app: frontend
+  ports:
+    - name: http
+      port: 8000
