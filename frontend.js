@@ -21,7 +21,7 @@ app.get("/", (req, res) => {
         },
       })
       .then((response) => {
-        res.send(response.data.toString());
+        res.send((response.data + 2 ).toString());
       })
       .catch((error) => {
         res.send("backend query failed");

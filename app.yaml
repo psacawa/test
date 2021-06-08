@@ -1,22 +1,21 @@
 ---
-# yaml-language-server: $schema=file://home/psacawa/.kube/schema/master-standalone-strict/configmap.json
+# yaml-language-server: $schema=file://home/psacawa/.schema/kube/configmap.json
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: 
-    test-backend-pod
+  name: test-backend-config
   labels:
     app: backend
 data:
-  BACKEND_HOST: test-backend-service
+  # BACKEND_HOST: test-backend-service
+  BACKEND_HOST: test-backend-service.default.svc.local
   BACKEND_PORT: "8080"
 ---
-# yaml-language-server: $schema=file://home/psacawa/.kube/schema/master-standalone-strict/pod.json
+# yaml-language-server: $schema=file://home/psacawa/.schema/kube/pod.json
 apiVersion: v1
 kind: Pod
 metadata:
-  name: 
-    test-backend-pod
+  name: test-backend-pod
   labels:
     app: backend
 spec:
@@ -25,12 +24,11 @@ spec:
       image: test-backend-image
       imagePullPolicy: Never
 ---
-# yaml-language-server: $schema=file://home/psacawa/.kube/schema/master-standalone-strict/service.json
+# yaml-language-server: $schema=file://home/psacawa/.schema/kube/service.json
 apiVersion: v1
 kind: Service
 metadata:
-  name: 
-    test-backend-service
+  name: test-backend-service
 spec:
   selector:
     app: backend
@@ -38,29 +36,47 @@ spec:
     - name: http
       port: 8080
 ---
-# yaml-language-server: $schema=file://home/psacawa/.kube/schema/master-standalone-strict/pod.json
-apiVersion: v1
-kind: Pod
+# yaml-language-server: $schema=file://home/psacawa/.schema/kube/deployment.json
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: 
-    test-frontend-pod
+  name: test-frontend-pod
   labels:
     app: frontend
-  
 spec:
-  containers:
-    - name: test-frontend-container
-      image: test-frontend-image
-      imagePullPolicy: Never
----
+  selector:
+    matchLabels:
+      app: frontend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: test-frontend-container
+          image: test-frontend-image:latest
+          imagePullPolicy: Never
+          env:
+            - name: BACKEND_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: test-backend-config
+                  key: BACKEND_HOST
+            - name: BACKEND_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: test-backend-config
+                  key: BACKEND_PORT
 
-# yaml-language-server: $schema=file://home/psacawa/.kube/schema/master-standalone-strict/service.json
+---
+# yaml-language-server: $schema=file://home/psacawa/.schema/kube/service.json
 apiVersion: v1
 kind: Service
 metadata:
-  name: 
-    test-frontend-service
+  name: test-frontend-service
 spec:
+  type: LoadBalancer
   selector:
     app: frontend
   ports:
