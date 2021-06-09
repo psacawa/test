@@ -21,8 +21,7 @@ metadata:
 spec:
   containers:
     - name: test-backend-container
-      image: test-backend-image
-      imagePullPolicy: Never
+      image: 886185890074.dkr.ecr.us-east-2.amazonaws.com/test-backend-image:latest
 ---
 # yaml-language-server: $schema=file://home/psacawa/.schema/kube/service.json
 apiVersion: v1
@@ -50,13 +49,13 @@ spec:
   replicas: 1
   template:
     metadata:
+      name: test-fronend-pod
       labels:
         app: frontend
     spec:
       containers:
         - name: test-frontend-container
-          image: test-frontend-image:latest
-          imagePullPolicy: Never
+          image: 886185890074.dkr.ecr.us-east-2.amazonaws.com/test-frontend-image
           env:
             - name: BACKEND_HOST
               valueFrom:
