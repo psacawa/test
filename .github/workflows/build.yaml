@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - run: docker build 886185890074.dkr.ecr.us-east-2.amazonaws.com/test-backend-image -f backend.Dockerfile .
+      - run: docker build --tag test-backend-image -f backend.Dockerfile .
       - name: Push backend to ECR
         id: build-backend
         uses: jwalton/gh-ecr-push@v1
@@ -18,12 +18,12 @@ jobs:
           access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           region: us-east-2
-          image: 886185890074.dkr.ecr.us-east-2.amazonaws.com/test-backend-image
+          image: test-backend-image
   build-frontend:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - run: docker build 886185890074.dkr.ecr.us-east-2.amazonaws.com/test-frontend-image -f frontend.Dockerfile .
+      - run: docker build --tag test-frontend-image -f frontend.Dockerfile .
       - name: Push frontend to ECR
         id: build-frontend
         uses: jwalton/gh-ecr-push@v1
@@ -31,4 +31,4 @@ jobs:
           access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           region: us-east-2
-          image: 886185890074.dkr.ecr.us-east-2.amazonaws.com/test-frontend-image
+          image: test-frontend-image
