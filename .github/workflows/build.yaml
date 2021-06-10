@@ -1,0 +1,27 @@
+on:
+  push:
+    branches:
+      - "master"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: docker build --tag 886185890074.dkr.ecr.us-east-2.amazonaws.com/test-backend-image -f backend.Dockerfile .
+      - name: Push to ECR
+        id: ecr
+        uses: jwalton/gh-ecr-push@v1
+        with:
+          access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          region: us-east-2
+          image: my-image:v1
+      - run: docker build --tag 886185890074.dkr.ecr.us-east-2.amazonaws.com/test-frontend-image -f frontend.Dockerfile .
+      - name: Push to ECR
+        id: ecr
+        uses: jwalton/gh-ecr-push@v1
+        with:
+          access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          region: us-east-2
+          image: my-image:v1
