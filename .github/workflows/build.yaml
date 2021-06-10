@@ -18,7 +18,7 @@ jobs:
           access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           region: us-east-2
-          image: my-image:v1
+          image: 886185890074.dkr.ecr.us-east-2.amazonaws.com/test-backend-image
   build-frontend:
     runs-on: ubuntu-latest
     steps:
@@ -31,4 +31,4 @@ jobs:
           access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           region: us-east-2
-          image: my-image:v1
+          image: 886185890074.dkr.ecr.us-east-2.amazonaws.com/test-frontend-image
