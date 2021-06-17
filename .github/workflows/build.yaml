@@ -21,6 +21,6 @@ jobs:
       - name: Build and push image
         uses: docker/build-push-action@v2
         with:
-          file: ${{ matrix.componnent}}.Dockerfile
+          file: ${{ matrix.component}}.Dockerfile
           push: true
-          tags: 886185890074.dkr.ecr.us-east-2.amazonaws.com/test-${{ matrix.componnent}}-image:latest
+          tags: 886185890074.dkr.ecr.us-east-2.amazonaws.com/test-${{ matrix.component}}-image:latest
