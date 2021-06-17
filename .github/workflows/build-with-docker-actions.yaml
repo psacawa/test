@@ -18,6 +18,6 @@ jobs:
       - name: Build and push image
         uses: docker/build-push-action@v2
         with:
-          context: backend
+          file: backend.Dockerfile
           push: true
-          tags: psacawa/box:latest
+          tags: psacawa/backend:latest
