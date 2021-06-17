@@ -7,9 +7,6 @@ on:
 
 jobs:
   build-backend:
-    strategy:
-      matrix:
-        app: [front, back]
     runs-on: ubuntu-latest
     steps:
       - name: Login to AWS
@@ -21,14 +18,6 @@ jobs:
       - name: Build and push image
         uses: docker/build-push-action@v2
         with:
+          context: backend
           push: true
           tags: psacawa/box:latest
-      - run: docker build --tag test-backend-image -f backend.Dockerfile .
-      - name: Push backend to ECR
-        id: build-backend
-        uses: jwalton/gh-ecr-push@v1
-        with:
-          access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          region: us-east-2
-          image: test-backend-image
