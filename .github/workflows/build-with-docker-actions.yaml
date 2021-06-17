@@ -20,4 +20,4 @@ jobs:
         with:
           file: backend.Dockerfile
           push: true
-          tags: psacawa/backend:latest
+          tags: 886185890074.dkr.ecr.us-east-2.amazonaws.com/backend:latest
